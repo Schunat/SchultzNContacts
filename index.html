@@ -1,11 +1,94 @@
 ﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
+  <meta charset="UTF-8">
+  <title>Contacts</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f0f4f8;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    #output, #prompt {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #34495e;
+    }
+    input[type="number"], button {
+      padding: 8px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
+
+  <h1>Welcome to the Contacts Directory!</h1>
+  <p>Take a look at our list below and find your favorite star.</p>
+
+  <table>
+    <tr><th>Slot #</th><th>Name</th></tr>
+    <tr><td>0</td><td>Arnold</td></tr>
+    <tr><td>1</td><td>Sly</td></tr>
+    <tr><td>2</td><td>Dwayne</td></tr>
+    <tr><td>3</td><td>Vin</td></tr>
+    <tr><td>4</td><td>JCVD</td></tr>
+    <tr><td>5</td><td>Steven</td></tr>
+  </table>
+
+  <div id="interaction">
+    <p id="prompt">Please enter a Slot Number to view the contact name:</p>
+    <input type="number" id="slotInput" min="0" max="5">
+    <button onclick="selectContact()">Search</button>
+    <p id="output"></p>
+  </div>
+
+  <script>
+    const contacts = ["Arnold", "Sly", "Dwayne", "Vin", "JCVD", "Steven"];
+
+    function selectContact() {
+      let continueSearch = true;
+
+      while (continueSearch) {
+        const slot = parseInt(document.getElementById("slotInput").value);
+        const output = document.getElementById("output");
+
+        if (slot >= 0 && slot < contacts.length) {
+          output.textContent = `You selected ${contacts[slot]}.`;
+        } else {
+          output.textContent = "That name is not found. Please try again.";
+          return;
+        }
+
+        setTimeout(() => {
+          const tryAgain = confirm("Would you like to search for another name?");
+          if (tryAgain) {
+            document.getElementById("slotInput").value = "";
+            output.textContent = "";
+          } else {
+            document.getElementById("prompt").textContent = "Thanks for using the Contacts Directory!";
+            document.getElementById("slotInput").style.display = "none";
+            document.querySelector("button").style.display = "none";
+            continueSearch = false;
+          }
+        }, 100);
+
+        break; // break so loop only runs once per click
+      }
+    }
+  </script>
 
 </body>
 </html>
